@@ -60,8 +60,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .csrf().disable()
         .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-        .authorizeRequests().antMatchers("/api/auth/**").permitAll()
-        .antMatchers("/api/test/**").permitAll()
+        .authorizeRequests().antMatchers(
+          "/auth/**", 
+          "/v2/api-docs", 
+          "/configuration/**",
+          "/swagger*/**",
+          "/webjars/**")
+        .permitAll()
         .anyRequest().authenticated();
 
     http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
