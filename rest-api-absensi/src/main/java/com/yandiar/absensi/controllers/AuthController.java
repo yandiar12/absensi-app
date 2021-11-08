@@ -1,23 +1,18 @@
 package com.yandiar.absensi.controllers;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
 import com.yandiar.absensi.jwt.JwtUtils;
-import com.yandiar.absensi.model.entity.ERole;
-import com.yandiar.absensi.model.entity.Role;
-import com.yandiar.absensi.model.entity.User;
 import com.yandiar.absensi.model.request.LoginRequest;
 import com.yandiar.absensi.model.request.SignupRequest;
 import com.yandiar.absensi.model.response.Response;
 import com.yandiar.absensi.model.response.AuthResponse;
-import com.yandiar.absensi.repository.RoleRepository;
 import com.yandiar.absensi.repository.UserRepository;
 import com.yandiar.absensi.services.UserDetailsImpl;
+import com.yandiar.absensi.services.UserDetailsServiceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,7 +22,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -54,10 +48,7 @@ public class AuthController {
   UserRepository userRepo;
 
   @Autowired
-  RoleRepository roleRepo;
-
-  @Autowired
-  PasswordEncoder encoder;
+  UserDetailsServiceImpl userService;
 
   @Autowired
   JwtUtils jwtUtils;
@@ -103,35 +94,8 @@ public class AuthController {
       return ResponseEntity.badRequest().body(new Response(HttpStatus.BAD_REQUEST, "Email is already taken."));
     }
 
-    User user = new User(signupRequest.getUsername(), signupRequest.getEmail(),
-        encoder.encode(signupRequest.getPassword()));
-
-    Set<String> strRoles = signupRequest.getRole();
-    Set<Role> roles = new HashSet<>();
-
-    if (strRoles == null) {
-      Role userRole = roleRepo.findByName(ERole.ROLE_USER)
-          .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-      roles.add(userRole);    
-    } else {
-      strRoles.forEach(role -> {
-        switch (role) {
-        case "admin":
-          Role adminRole = roleRepo.findByName(ERole.ROLE_ADMIN)
-              .orElseThrow(() -> new RuntimeException("Error: Role is not found"));
-          roles.add(adminRole);
-          break;
-        default:
-          Role userRole = roleRepo.findByName(ERole.ROLE_USER)
-              .orElseThrow(() -> new RuntimeException("Error: Role is not found"));
-          roles.add(userRole);
-        }
-      });
-    }
-
-    user.setRoles(roles);
-    userRepo.save(user);
-
-    return ResponseEntity.ok(new Response(HttpStatus.OK, "User registered successfully."));
+    Response res = userService.addUser(signupRequest);
+    
+    return ResponseEntity.ok(res);
   }
 }
