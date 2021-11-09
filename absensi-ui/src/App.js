@@ -1,11 +1,25 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { Router, Route, Switch } from 'react-router-dom';
+
 import Home from './components/Home';
 import Login from './components/auth/Login';
 
-function App() {
+import { clearMessage } from './actions/messageAction';
+
+import { history } from './helpers/history';
+
+const App = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    history.listen((location) => {
+      dispatch(clearMessage())
+    })
+  }, [dispatch])
+
   return (
-    <Router>
+    <Router history={history}>
       <div>
         <Switch>
           <Route exact path="/">

@@ -1,4 +1,4 @@
-import avatar from '../../assets/images/genos-1.jpg';
+// import avatar from '../../assets/images/genos-1.jpg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faSignOutAlt, faBook, faShareSquare, faServer } from '@fortawesome/free-solid-svg-icons';
 
@@ -14,7 +14,7 @@ const Sidebar = ({sidebarActive}) => {
       <ul className="list-unstyled components">
         {/* <div className="text-center"> */}
           {/* <img src={avatar} className="rounded m-2 border border-secondary" height="60" width="60" alt="profile-pict" /> */}
-          <p><FontAwesomeIcon className="icon mr-2" icon={faUser} />Yandi AR</p>
+          <p id="user-profile"><FontAwesomeIcon className="icon mr-2" icon={faUser} />Yandi AR</p>
         {/* </div> */}
         <li  className="">
           <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" className="dropdown-toggle">
@@ -23,13 +23,13 @@ const Sidebar = ({sidebarActive}) => {
           </a>
           <ul className="collapse list-unstyled" id="homeSubmenu">
             <li>
-              <a href="#">Izin Sakit</a>
+              <a href="/izin-sakit">Izin Sakit</a>
             </li>
             <li>
-              <a href="#">Cuti</a>
+              <a href="/cuti">Cuti</a>
             </li>
             <li>
-              <a href="#">Perjalanan Dinas</a>
+              <a href="/sppd">Perjalanan Dinas</a>
             </li>
           </ul>
         </li>
@@ -40,21 +40,21 @@ const Sidebar = ({sidebarActive}) => {
           </a>
           <ul className="collapse list-unstyled" id="pageSubmenu">
             <li>
-              <a href="#">Izin Sakit</a>
+              <a href="/izin-sakit-data">Izin Sakit</a>
             </li>
             <li>
-              <a href="#">Cuti</a>
+              <a href="/cuti-data">Cuti</a>
             </li>
             <li>
-              <a href="#">Perjalanan Dinas</a>
+              <a href="/sppd-data">Perjalanan Dinas</a>
             </li>
           </ul>
         </li>
         <li>
-          <a href="#"><FontAwesomeIcon className="icon mr-2" icon={faBook} />Laporan Absensi</a>
+          <a href="/laporan-absensi"><FontAwesomeIcon className="icon mr-2" icon={faBook} />Laporan Absensi</a>
         </li>
         <li>
-          <a href="#"><FontAwesomeIcon className="icon mr-2" icon={faSignOutAlt} />Sign Out</a>
+          <a href="/logout"><FontAwesomeIcon className="icon mr-2" icon={faSignOutAlt} />Sign Out</a>
         </li>
       </ul>
     </nav>

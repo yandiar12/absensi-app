@@ -20,7 +20,7 @@ body {
   background-color: #343a40 !important;
   color: #fff !important;
 }
-p {
+#user-profile {
   font-size: 1.1em;
   font-weight: 600;
   line-height: 1.7em;

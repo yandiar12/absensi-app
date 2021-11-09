@@ -7,10 +7,19 @@ const login = (username, password) => {
     username,
     password
   }).then (res => {
-    console.log(res);
+    if (res.data.token) {
+      localStorage.setItem('user', JSON.stringify(res.data));
+    }
+
+    return res.data;
   })
 }
 
+const logout = () => {
+  localStorage.removeItem('user');
+}
+
 export default {
-  login
+  login,
+  logout
 }

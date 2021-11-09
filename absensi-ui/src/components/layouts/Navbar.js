@@ -1,7 +1,17 @@
+import { useDispatch } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars, faUser, faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
+import { logout } from '../../actions/authAction';
 
 const Navbar = ({handleToggleSidebar}) => {
+
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(logout());
+    return <Redirect to='/login' />
+  }
 
   return (
     <div className="container-fluid content">
@@ -12,7 +22,7 @@ const Navbar = ({handleToggleSidebar}) => {
           </span>
         </button>
         
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span>
             <FontAwesomeIcon icon={faBars} />
           </span>
@@ -21,12 +31,12 @@ const Navbar = ({handleToggleSidebar}) => {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav ml-auto">
             <li className="nav-item">
-              <a className="nav-link" href="#">
+              <a className="nav-link" href="/profile">
               <FontAwesomeIcon icon={faUser} /> User Profile
               </a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#">
+              <a type="button" className="nav-link" href="#" onClick={handleLogout}>
                 <FontAwesomeIcon icon={faSignOutAlt} /> Sign Out
               </a>
             </li>
