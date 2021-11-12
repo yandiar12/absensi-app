@@ -1,13 +1,19 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { Router, Route, Switch } from 'react-router-dom';
-
-import Home from './components/Home';
-import Login from './components/auth/Login';
+import { HashRouter, Route, Switch } from 'react-router-dom';
+import './scss/style.scss';
 
 import { clearMessage } from './actions/messageAction';
 
 import { history } from './helpers/history';
+
+const DefaultLayout = React.lazy(() => import('./layouts/DefaultLayout'));
+
+const loading = (
+  <div className="pt-3 text-center">
+    <div className="sk-spinner sk-spinner-pulse"></div>
+  </div>
+)
 
 const App = () => {
   const dispatch = useDispatch();
@@ -19,18 +25,16 @@ const App = () => {
   }, [dispatch])
 
   return (
-    <Router history={history}>
-      <div>
+    <HashRouter>
+      <React.Suspense fallback={loading}>
         <Switch>
-          <Route exact path="/">
-            <Home />
-          </Route>
-          <Route exact path="/login">
+          <Route path="/" name="Home" render={(props) => <DefaultLayout {...props} />} />
+          {/* <Route exact path="/login">
             <Login />
-          </Route>
+          </Route> */}
         </Switch>
-      </div>
-    </Router>
+      </React.Suspense>
+    </HashRouter>
   );
 }
 
