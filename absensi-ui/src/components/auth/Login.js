@@ -8,6 +8,7 @@ import { login } from '../../actions/authAction'
 const Login = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [loading, setLoading] = useState(false)
 
   const { isLoggedIn } = useSelector((state) => state.auth)
   const { message } = useSelector(state => state.message)
@@ -29,11 +30,14 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
+    setLoading(true)
     dispatch(login(username, password))
       .then(() => {
+        setLoading(false)
         window.location.reload()
       })
       .catch(() => {
+        setLoading(false)
         console.log('error');
       }) 
   }
@@ -76,32 +80,36 @@ const Login = () => {
       <div className='login-wrapper fadeInDown'>
         <h1>Please Log In</h1>
         <form onSubmit={handleSubmit}>
-          <label>
-            <p>Username</p>
-            <input
-              className='form-control'
-              type='text'
-              name='username'
-              value={username}
-              onChange={handleChange}
-              placeholder='Enter Username'
-              id='username'
-            />
-            {/* <div className='text-danger'>{state.errors.username}</div> */}
-          </label>
-          <label>
-            <p>Password</p>
-            <input
-              type='password'
-              name='password'
-              value={password}
-              onChange={handleChange}
-              className='form-control'
-              placeholder='Enter password'
-              id='password'
-            />
-            {/* <div className='text-danger'>{state.errors.password}</div> */}
-          </label>
+          <div className="form-group">
+            <label>
+              <p>Username</p>
+              <input
+                className='form-control'
+                type='text'
+                name='username'
+                value={username}
+                onChange={handleChange}
+                placeholder='Enter Username'
+                id='username'
+              />
+              {/* <div className='text-danger'>{state.errors.username}</div> */}
+            </label>
+          </div>
+          <div className="form-group">
+            <label>
+              <p>Password</p>
+              <input
+                type='password'
+                name='password'
+                value={password}
+                onChange={handleChange}
+                className='form-control'
+                placeholder='Enter password'
+                id='password'
+              />
+              {/* <div className='text-danger'>{state.errors.password}</div> */}
+            </label>
+          </div>
           {message && (
             <div className='form-group'>
               <div className='alert alert-danger' role='alert'>
@@ -114,9 +122,13 @@ const Login = () => {
               id='btnSubmit'
               className='btn btn-outline-secondary'
               type='submit'
-              onSubmit={handleSubmit}
             >
-              Submit
+              { loading && (
+                <div className="spinner-border spinner-border-sm text-dark" role="status">
+                  <span className="sr-only">Loading...</span>
+                </div>
+              )}
+              &nbsp;Submit
             </button>
           </div>
         </form>
