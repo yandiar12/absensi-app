@@ -49,6 +49,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     Response res = new Response();
 
     try {
+      
       User user = new User(signupRequest.getUsername(), signupRequest.getEmail(),
           encoder.encode(signupRequest.getPassword()));
 
@@ -81,6 +82,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
       ex.printStackTrace();
       res.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
       res.setMessage("Error add user : "+ex.getLocalizedMessage());
+      return res;
     }
 
     res.setStatus(HttpStatus.OK);
