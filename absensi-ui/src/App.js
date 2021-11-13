@@ -7,6 +7,8 @@ import { clearMessage } from './actions/messageAction';
 
 import { history } from './helpers/history';
 
+const Login = React.lazy(() => import('./views/auth/Login'))
+const Register = React.lazy(() => import('./views/auth/Register'))
 const DefaultLayout = React.lazy(() => import('./layouts/DefaultLayout'));
 
 const loading = (
@@ -28,10 +30,9 @@ const App = () => {
     <HashRouter>
       <React.Suspense fallback={loading}>
         <Switch>
+          <Route exact path="/login" name="Login Page" render={(props) => <Login {...props} />} />
+          <Route exact path="/register" name="Register Page" render={(props) => <Register {...props} />} />
           <Route path="/" name="Home" render={(props) => <DefaultLayout {...props} />} />
-          {/* <Route exact path="/login">
-            <Login />
-          </Route> */}
         </Switch>
       </React.Suspense>
     </HashRouter>

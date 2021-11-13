@@ -11,7 +11,7 @@ import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
 const _nav = [
   {
     component: CNavItem,
-    name: 'Home',
+    name: 'Absensi App',
     to: '/',
     icon: <CIcon icon={cilHome} customClassName="nav-icon" />
   },
